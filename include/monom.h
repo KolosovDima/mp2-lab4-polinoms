@@ -17,4 +17,4 @@ public:
 	Monom& operator=( Monom &m2); 
 
 };
-#endif;
+#endif

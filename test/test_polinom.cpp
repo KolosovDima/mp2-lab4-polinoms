@@ -53,4 +53,69 @@ TEST(Monom, can_assign_monom)
 	EXPECT_EQ(123 , m2.GetPower());
 	EXPECT_EQ(3 , m2.GetFactor());
 }
-
+TEST(List, can_create_List)
+{
+	ASSERT_NO_THROW (List<int> st);
+}
+TEST(List, can_create_List_with_Monom_and_Pointer)
+{
+	Monom m(3,1,2,3);
+	List<Monom> s;
+	ASSERT_NO_THROW (List<Monom> st(&m,&s));
+}
+TEST(List, can_Get_pointer_data)
+{
+	int a;
+	a=3;
+	List<int>s2;
+	List<int> s(&a,&s2);
+	EXPECT_EQ(3,*(s.GetPointerData()));
+}
+TEST(List, can_Set_pointer_data)
+{
+	int a,b;
+	b=3;
+	a=7;
+	List<int>s2;
+	List<int>s(&b,&s2);
+	s.SetPointerData(&a);
+	EXPECT_EQ(7,*(s.GetPointerData()));
+}
+TEST(List, can_Get_pointer_List)
+{
+	int a;
+	a=3;
+	List<int>s2;
+	List<int> s(&a,&s2);
+	EXPECT_EQ(&s2,s.GetPointerList());
+}
+TEST(List, can_Set_pointer_List)
+{
+	int b;
+	b=3;
+	List<int>s2;
+	List<int>s3;
+	List<int>s(&b,&s2);
+	s.SetPointerList(&s3);
+	EXPECT_EQ(&s3,s.GetPointerList());
+}
+TEST(List, can_assign_List)
+{
+	int b;
+	b=3;
+	List<int>s2;
+	List<int>s3;
+	List<int>s(&b,&s2);
+	s3=s;
+	EXPECT_EQ(&s2,s3.GetPointerList());
+}
+TEST(List, can_Set_copied_List)
+{
+	int b;
+	b=3;
+	List<int>s2;
+	List<int>s(&b,&s2);
+	List<int>s3(s);
+	EXPECT_EQ(&s2,s3.GetPointerList());
+}
+// добавить тесты на лист (равно , указатель на другой лист, копирование изначально)

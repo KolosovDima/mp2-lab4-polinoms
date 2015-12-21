@@ -61,15 +61,15 @@ TEST(List, can_create_List_with_Monom_and_Pointer)
 {
 	Monom m(3,1,2,3);
 	List<Monom> s;
-	ASSERT_NO_THROW (List<Monom> st(&m,&s));
+	ASSERT_NO_THROW (List<Monom> st(m,&s));
 }
 TEST(List, can_Get_pointer_data)
 {
 	int a;
 	a=3;
 	List<int>s2;
-	List<int> s(&a,&s2);
-	EXPECT_EQ(3,*(s.GetPointerData()));
+	List<int> s(a,&s2);
+	EXPECT_EQ(3,s.GetData());
 }
 TEST(List, can_Set_pointer_data)
 {
@@ -77,16 +77,16 @@ TEST(List, can_Set_pointer_data)
 	b=3;
 	a=7;
 	List<int>s2;
-	List<int>s(&b,&s2);
-	s.SetPointerData(&a);
-	EXPECT_EQ(7,*(s.GetPointerData()));
+	List<int>s(b,&s2);
+	s.SetData(a);
+	EXPECT_EQ(7,s.GetData());
 }
 TEST(List, can_Get_pointer_List)
 {
 	int a;
 	a=3;
 	List<int>s2;
-	List<int> s(&a,&s2);
+	List<int> s(a,&s2);
 	EXPECT_EQ(&s2,s.GetPointerList());
 }
 TEST(List, can_Set_pointer_List)
@@ -95,7 +95,7 @@ TEST(List, can_Set_pointer_List)
 	b=3;
 	List<int>s2;
 	List<int>s3;
-	List<int>s(&b,&s2);
+	List<int>s(b,&s2);
 	s.SetPointerList(&s3);
 	EXPECT_EQ(&s3,s.GetPointerList());
 }
@@ -105,17 +105,87 @@ TEST(List, can_assign_List)
 	b=3;
 	List<int>s2;
 	List<int>s3;
-	List<int>s(&b,&s2);
+	List<int>s(b,&s2);
 	s3=s;
-	EXPECT_EQ(&s2,s3.GetPointerList());
+	EXPECT_EQ(3,s3.GetData());
 }
 TEST(List, can_Set_copied_List)
 {
 	int b;
 	b=3;
 	List<int>s2;
-	List<int>s(&b,&s2);
+	List<int>s(b,&s2);
 	List<int>s3(s);
 	EXPECT_EQ(&s2,s3.GetPointerList());
+	EXPECT_EQ(3,s3.GetData());
 }
-// добавить тесты на лист (равно , указатель на другой лист, копирование изначально)
+TEST(Polinom, can_create_Polinom)
+{
+ASSERT_NO_THROW (Polinom st);
+}
+TEST(Polinom, can_SetListFirst)
+{
+	Polinom st;
+	Monom m(3,1,2,3);
+	List<Monom> s2;
+	List<Monom> s;
+	s.SetData(m);
+	s.SetPointerList(&s2);
+	st.SetListFirst(&s);
+	EXPECT_EQ(3,st.first.GetData().GetFactor());
+}
+TEST(Polinom, can_DeletFirst)
+{
+	Polinom st;
+	Monom m(3,1,2,3);
+	List<Monom>s2;
+	List<Monom>s;
+	s.SetData(m);
+	s.SetPointerList(&s2);
+	st.SetListFirst(&s);
+	st.DeletFirst();
+	EXPECT_EQ(0,st.first.GetData().GetFactor());
+}
+TEST(Polinom, can_SetListMid)
+{
+	Polinom st;
+	Monom m(3,1,2,3);
+	Monom m2(2,1,2,3);
+	List<Monom>s2;
+	List<Monom>s;
+	List<Monom>s3;
+	List<Monom>*s4;
+	s3.SetData(m2);
+	s.SetData(m);
+	st.SetListFirst(&s);
+	st.SetListMid(&s3,st.Head);
+	s4=st.first.GetPointerList();
+	EXPECT_EQ(2,(*s4).GetData().GetFactor());
+}
+TEST(Polinom, can_PolinomAdd)
+{
+	Polinom st;
+	Polinom st2;
+	Monom m(3,1,2,3);
+	st.first.SetData(m);
+	st2=st+st;
+	EXPECT_EQ(6,st2.first.GetData().GetFactor());
+}
+TEST(Polinom, can_Polinom_no_Add)
+{
+	Polinom st;
+	Polinom st2;
+	Monom m(3,1,2,3);
+	st.first.SetData(m);
+	st2=st+st-st;
+	EXPECT_EQ(3,st2.first.GetData().GetFactor());
+}
+TEST(Polinom, can_Polinom_ym_)
+{
+	Polinom st;
+	Polinom st2;
+	Monom m(3,1,2,3);
+	st.first.SetData(m);
+	st2=st*st;
+	EXPECT_EQ(9,st2.first.GetData().GetFactor());
+}

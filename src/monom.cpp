@@ -1,4 +1,5 @@
 #include "monom.h"
+
 void Monom::SetPower(int pow_x,int pow_y,int pow_z)
 {
 	if ((pow_x>9)||(pow_y>9)||(pow_z>9))

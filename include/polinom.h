@@ -41,7 +41,7 @@ List<T>& List<T>::operator =(List<T> &List_new)
 class Polinom
 {
 public:
-	List<Monom> first;
+	
 	List<Monom> *Head;
 	Polinom();
 	~Polinom();
@@ -54,7 +54,7 @@ public:
 	Polinom operator+( Polinom &PL_Add);
 	Polinom operator*( Polinom &PL_Add);
 	Polinom operator-( Polinom &PL_Add);
-	Polinom& operator =( Polinom &PL_Add){first=PL_Add.first; Head=&first;return *this;};
+	Polinom& operator =( Polinom &PL_Add){ *Head=*PL_Add;return *this;};
 friend istream& operator>>(istream &in, Polinom &mt)
   {
 	 setlocale(LC_ALL, "Russian");
@@ -86,7 +86,7 @@ friend istream& operator>>(istream &in, Polinom &mt)
 		if (d==0)
 			ToF=true;
 	}
-	if (mt.first.GetData().GetFactor()==0)
+	if ((*(mt.Head)).GetData().GetFactor()==0)
 		mt.DeletFirst();
     return in;
   }

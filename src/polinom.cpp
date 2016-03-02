@@ -1,25 +1,36 @@
 #include "polinom.h"
+#include "math.h"
 using namespace std;
 Polinom::Polinom()
 {
-	Head=&first;
+	Head = new List<Monom>;
 }
 Polinom::~Polinom()
 {
+	do
+	{
+		DeletFirst();
+	}
+	while(Head!=0);
 }
-void Polinom::SetListFirst(List<Monom> *list_new)//переделать
+void Polinom::SetListFirst(List<Monom> *list_new)
 {
-	List<Monom> *Head_new=new List<Monom>();
-	Head_new=list_new;
+	//List<Monom> *Head_new=new List<Monom>(*list_new);
+	//(*Head_new)=(*list_new);
 	(*this).SetListMid(Head,Head);
-	first.SetData((*Head_new).GetData());
+	(*Head).SetData((*list_new).GetData());
 }
 void Polinom::DeletFirst()
-{
+{/*
 	List<Monom> *Head_nd2=Head;
 	Head=first.GetPointerList();
 	first=*Head;
-	first.SetPointerList((*Head).GetPointerList());
+	delete Head_nd2;
+	//first.SetPointerList((*Head).GetPointerList());*/
+	List<Monom> *temp = new List<Monom>;
+	temp = Head;
+	Head = (*(Head)).GetPointerList();
+	delete temp;
 }
 void Polinom::Deletpolinom()
 {
@@ -34,21 +45,21 @@ void Polinom::DeletMid(List<Monom> *list_old)
 	List<Monom> *midpoint;
 	midpoint=(*list_old).GetPointerList();
 	(*list_old).SetPointerList((*(*list_old).GetPointerList()).GetPointerList());
+	delete midpoint; 
 }
 void Polinom::SetListMid(List<Monom> *list_new,List<Monom> *list_old)
 {
-	List<Monom> *Li =new List<Monom>();
-	(*Li)=(*list_new);
-	(*Li).SetPointerList((*list_old).GetPointerList());
-	(*list_old).SetPointerList(Li);
+	List<Monom> *Li =new List<Monom>(*list_new);
+	Li->SetPointerList((*list_old).GetPointerList());
+	list_old->SetPointerList(Li);
 }
 void Polinom::SetListMidh(List<Monom> *list_new)
 {
 	List<Monom> *Lr;
 	List<Monom> *Lh;
-	List<Monom> *Li =new List<Monom>();
+	List<Monom> *Li =new List<Monom>(*list_new);
 	Lr=Lh=Head;
-	(*Li)=(*list_new);
+	//(*Li)=(*list_new);
 	while ((Lh!=0)&&((*Lh).GetData().GetPower()<(*list_new).GetData().GetPower()))
 	{
 		if(Lr!=Lh)
@@ -57,19 +68,19 @@ void Polinom::SetListMidh(List<Monom> *list_new)
 	}
 	if ((*Lr).GetData().GetPower()==(*list_new).GetData().GetPower())
 	{
-		(*Li)=(*list_new);
-		(*Li).GetData().SetFactor((*Li).GetData().GetFactor()+(*Lh).GetData().GetPower());
-		if ((*Li).GetData().GetFactor()>0.000000001)
+		//(*Li)=(*list_new);
+		(*Li).GetData().SetFactor((*Li).GetData().GetFactor()+(*Lh).GetData().GetFactor());
+		if (abs((*Li).GetData().GetFactor())>0.000000001)
 		{
-				(*Li).SetPointerList((*Lr).GetPointerList());
+				(*Li).SetPointerList((*Lr).GetPointerList()); // (*Li).SetPointerList(Lh);
 				(*Lr).SetPointerList(Li);
 		}
 	}
 	else
 	{
-	(*Li)=(*list_new);
-	(*Li).SetPointerList((*Lr).GetPointerList());
-	(*Lr).SetPointerList(Li);
+	//(*Li)=(*list_new);
+		(*Li).SetPointerList((*Lr).GetPointerList()); // (*Li).SetPointerList(Lh);
+		(*Lr).SetPointerList(Li);
 	}
 }
 Polinom Polinom::operator+( Polinom &PL_Add)
@@ -97,7 +108,7 @@ Polinom Polinom::operator+( Polinom &PL_Add)
 		{
 			List<Monom> sum(*k1);
 			sum.GetData().SetFactor(sum.GetData().GetFactor()+(*k2).GetData().GetFactor());
-			if (sum.GetData().GetFactor()<0.000000001)
+			if (abs(sum.GetData().GetFactor())<0.000000001)
 			{
 				k1=(*k1).GetPointerList();
 				k2=(*k2).GetPointerList();
@@ -123,8 +134,8 @@ Polinom Polinom::operator+( Polinom &PL_Add)
 			beta=(*beta).GetPointerList();
 			k2=(*k2).GetPointerList();
 	}
-	if ((p_n.first.GetData().GetFactor()==0)&&(p_n.first.GetPointerList()!=0))
-		p_n.DeletFirst();
+	//while ((*(p_n.Head).GetData().GetFactor()==0)&&(*(p_n.Head).GetPointerList()!=0))
+	//	p_n.DeletFirst();
 	return p_n;
 }
 Polinom Polinom::operator-( Polinom &PL_Add)
@@ -178,8 +189,8 @@ Polinom Polinom::operator-( Polinom &PL_Add)
 			beta=(*beta).GetPointerList();
 			k2=(*k2).GetPointerList();
 	}
-	if ((p_n.first.GetData().GetFactor()==0)&&(p_n.first.GetPointerList()!=0))
-		p_n.DeletFirst();
+	//while ((p_n.first.GetData().GetFactor()==0)&&(p_n.first.GetPointerList()!=0))
+	//	p_n.DeletFirst();
 	return p_n;
 }
 Polinom Polinom:: operator*( Polinom &PL_Add)
@@ -190,8 +201,8 @@ Polinom Polinom:: operator*( Polinom &PL_Add)
 	k2=PL_Add.Head;
 	while (k1!=0)
 	{
-		Polinom sum,sum2;
-		sum.first.SetData((*k1).GetData());
+		Polinom sum2;
+		//sum.first.SetData((*k1).GetData());
 		beta2=sum2.Head;
 		k2=PL_Add.Head;
 			while (k2!=0)
@@ -216,7 +227,7 @@ Polinom Polinom:: operator*( Polinom &PL_Add)
 		p_n=p_n+sum2;
 		k1=(*k1).GetPointerList();
 	}
-	if ((p_n.first.GetData().GetFactor()==0)&&(p_n.first.GetPointerList()!=0))
-		p_n.DeletFirst();
+	//while  ((p_n.first.GetData().GetFactor()==0)&&(p_n.first.GetPointerList()!=0))
+	//	p_n.DeletFirst();
 	return p_n;
 }

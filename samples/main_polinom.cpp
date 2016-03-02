@@ -3,7 +3,7 @@
 void main()
 {
 	int a;
-	Polinom p1,p2;
+	Polinom p1;
 	setlocale(LC_ALL, "Russian");
 	cout<<"введите полином"<<endl;
 	cin>>p1;
@@ -12,6 +12,7 @@ void main()
 		cout<<"для сложение введите 1"<<endl;
 		cout<<"для вычитание введите 2"<<endl;
 		cout<<"для умножение введите 3"<<endl;
+		Polinom p2;
 		do
 		{
 			cin>>a;

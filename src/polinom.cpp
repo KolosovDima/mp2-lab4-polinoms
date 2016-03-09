@@ -83,24 +83,24 @@ void Polinom::SetListMidh(List<Monom> *list_new)
 		(*Lr).SetPointerList(Li);
 	}
 }
-Polinom Polinom::operator+( Polinom &PL_Add)
+Polinom& Polinom::operator+( Polinom &PL_Add)
 {
-	Polinom p_n;
+	Polinom *p_n = new Polinom;
 	List<Monom> *k1,*k2,*beta;
 	k1=Head;
-	beta=p_n.Head;
+	beta=p_n->Head;
 	k2=PL_Add.Head;
 	while ((k1!=0)&&(k2!=0))
 	{
 		if ((*k1).GetData().GetPower()>(*k2).GetData().GetPower())
 		{
-			p_n.SetListMid(k2,beta);
+			p_n->SetListMid(k2,beta);
 			beta=(*beta).GetPointerList();
 			k2=(*k2).GetPointerList();
 		}
 		else if ((*k1).GetData().GetPower()<(*k2).GetData().GetPower())
 		{
-			p_n.SetListMid(k1,beta);
+			p_n->SetListMid(k1,beta);
 			beta=(*beta).GetPointerList();
 			k1=(*k1).GetPointerList();
 		}
@@ -115,7 +115,7 @@ Polinom Polinom::operator+( Polinom &PL_Add)
 			}
 			else
 			{
-				p_n.SetListMid(&sum,beta);
+				p_n->SetListMid(&sum,beta);
 				k1=(*k1).GetPointerList();
 				k2=(*k2).GetPointerList();
 				beta=(*beta).GetPointerList();
@@ -124,38 +124,37 @@ Polinom Polinom::operator+( Polinom &PL_Add)
 	}
 	while (k1!=0)
 	{
-			p_n.SetListMid(k1,beta);
+			p_n->SetListMid(k1,beta);
 			beta=(*beta).GetPointerList();
 			k1=(*k1).GetPointerList();
 	}
 	while (k2!=0)
 	{	
-			p_n.SetListMid(k2,beta);
+			p_n->SetListMid(k2,beta);
 			beta=(*beta).GetPointerList();
 			k2=(*k2).GetPointerList();
 	}
-	//while ((*(p_n.Head).GetData().GetFactor()==0)&&(*(p_n.Head).GetPointerList()!=0))
-	//	p_n.DeletFirst();
-	return p_n;
+		p_n->DeletFirst();
+	return *p_n;
 }
-Polinom Polinom::operator-( Polinom &PL_Add)
+Polinom& Polinom::operator-( Polinom &PL_Add)
 {
-	Polinom p_n;
+	Polinom *p_n = new Polinom;
 	List<Monom> *k1,*k2,*beta;
 	k1=Head;
-	beta=p_n.Head;
+	beta=p_n->Head;
 	k2=PL_Add.Head;
 	while ((k1!=0)&&(k2!=0))
 	{
 		if ((*k1).GetData().GetPower()>(*k2).GetData().GetPower())
 		{
-			p_n.SetListMid(k2,beta);
+			p_n->SetListMid(k2,beta);
 			beta=(*beta).GetPointerList();
 			k2=(*k2).GetPointerList();
 		}
 		else if ((*k1).GetData().GetPower()<(*k2).GetData().GetPower())
 		{
-			p_n.SetListMid(k1,beta);
+			p_n->SetListMid(k1,beta);
 			beta=(*beta).GetPointerList();
 			k1=(*k1).GetPointerList();
 		}
@@ -163,14 +162,14 @@ Polinom Polinom::operator-( Polinom &PL_Add)
 		{
 			List<Monom> sum(*k1);
 			sum.GetData().SetFactor(sum.GetData().GetFactor()-(*k2).GetData().GetFactor());
-			if (sum.GetData().GetFactor()<0.000000001)
+			if (abs(sum.GetData().GetFactor())<0.000000001)
 			{
 				k1=(*k1).GetPointerList();
 				k2=(*k2).GetPointerList();
 			}
 			else
 			{
-				p_n.SetListMid(&sum,beta);
+				p_n->SetListMid(&sum,beta);
 				k1=(*k1).GetPointerList();
 				k2=(*k2).GetPointerList();
 				beta=(*beta).GetPointerList();
@@ -179,23 +178,22 @@ Polinom Polinom::operator-( Polinom &PL_Add)
 	}
 	while (k1!=0)
 	{
-			p_n.SetListMid(k1,beta);
+			p_n->SetListMid(k1,beta);
 			beta=(*beta).GetPointerList();
 			k1=(*k1).GetPointerList();
 	}
 	while (k2!=0)
 	{	
-			p_n.SetListMid(k2,beta);
+			p_n->SetListMid(k2,beta);
 			beta=(*beta).GetPointerList();
 			k2=(*k2).GetPointerList();
 	}
-	//while ((p_n.first.GetData().GetFactor()==0)&&(p_n.first.GetPointerList()!=0))
-	//	p_n.DeletFirst();
-	return p_n;
+		p_n->DeletFirst();
+	return *p_n;
 }
-Polinom Polinom:: operator*( Polinom &PL_Add)
+Polinom& Polinom:: operator*( Polinom &PL_Add)
 {
-	Polinom p_n;
+	Polinom *p_n= new Polinom;
 	List<Monom> *k1,*k2,*beta2,beta;
 	k1=Head;
 	k2=PL_Add.Head;
@@ -217,17 +215,38 @@ Polinom Polinom:: operator*( Polinom &PL_Add)
 					catch(...)
 					{
 						cout << "ошибка сепень выше 9 , полином не корректен"<< endl;
-						return p_n;
+						return *p_n;
 					}
 					sum2.SetListMidh(&beta);
 					beta2=&beta;
 				}
 				k2=(*k2).GetPointerList();
 			}
-		p_n=p_n+sum2;
+		*p_n=(*p_n)+sum2;
 		k1=(*k1).GetPointerList();
 	}
-	//while  ((p_n.first.GetData().GetFactor()==0)&&(p_n.first.GetPointerList()!=0))
-	//	p_n.DeletFirst();
-	return p_n;
+	while ((p_n->Head->GetData().GetFactor()==0)&&(p_n->Head->GetPointerList()!=0))
+		p_n->DeletFirst();
+	return *p_n;
+}
+Polinom& Polinom::operator= ( Polinom &PL_start)
+{
+	if (this->Head==PL_start.Head)
+	{
+		return *this
+	}
+	delete Head;
+	Head = new List<Monom>;
+
+	List<Monom> *k1,*k2;
+	this->Head=PL_start.Head;
+	k1=PL_start.Head->GetPointerList();
+	k2=this->Head;
+	while(k1!=0)
+	{
+		SetListMid(k1,k2);
+		k1=k1->GetPointerList();
+		k2=k2->GetPointerList();
+	}
+	return *this;
 }

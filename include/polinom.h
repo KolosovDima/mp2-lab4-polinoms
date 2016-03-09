@@ -35,7 +35,6 @@ template <class T>
 List<T>& List<T>::operator =(List<T> &List_new)
 {
 	pData=List_new.GetData();
-	nextpList=List_new.GetPointerList();
 	return *this;
 }
 class Polinom
@@ -51,10 +50,10 @@ public:
 	void SetListMidh(List<Monom> *list_new);
 	void DeletMid(List<Monom> *list_old);//+
 	void Deletpolinom();//+
-	Polinom operator+( Polinom &PL_Add);
-	Polinom operator*( Polinom &PL_Add);
-	Polinom operator-( Polinom &PL_Add);
-	Polinom& operator =( Polinom &PL_Add){ *Head=*PL_Add;return *this;};
+	Polinom& operator+( Polinom &PL_Add);
+	Polinom& operator*( Polinom &PL_Add);
+	Polinom& operator-( Polinom &PL_Add);
+	Polinom& operator=( Polinom &PL_Add);
 friend istream& operator>>(istream &in, Polinom &mt)
   {
 	 setlocale(LC_ALL, "Russian");

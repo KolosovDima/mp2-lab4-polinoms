@@ -123,84 +123,84 @@ TEST(Polinom, can_create_Polinom)
 {
 ASSERT_NO_THROW (Polinom st);
 }
-//TEST(Polinom, can_SetListFirst)
-//{
-//	Polinom st;
-//	Monom m(3,1,2,3);
-//	List<Monom> s2;
-//	List<Monom> s;
-//	s.SetData(m);
-//	s.SetPointerList(&s2);
-//	st.SetListFirst(&s);
-//	EXPECT_EQ(3,st.first.GetData().GetFactor());
-//}
-//TEST(Polinom, can_DeletFirst)
-//{
-//	Polinom st;
-//	Monom m(3,1,2,3);
-//	List<Monom>s2;
-//	List<Monom>s;
-//	s.SetData(m);
-//	s.SetPointerList(&s2);
-//	st.SetListFirst(&s);
-//	st.DeletFirst();
-//	EXPECT_EQ(0,st.first.GetData().GetFactor());
-//}
-//TEST(Polinom, can_SetListMid)
-//{
-//	Polinom st;
-//	Monom m(3,1,2,3);
-//	Monom m2(2,1,2,3);
-//	List<Monom>s2;
-//	List<Monom>s;
-//	List<Monom>s3;
-//	List<Monom>*s4;
-//	s3.SetData(m2);
-//	s.SetData(m);
-//	st.SetListFirst(&s);
-//	st.SetListMid(&s3,st.Head);
-//	s4=st.first.GetPointerList();
-//	EXPECT_EQ(2,(*s4).GetData().GetFactor());
-//}
-//TEST(Polinom, can_PolinomAdd)
-//{
-//	Polinom st;
-//	Polinom st2;
-//	Monom m(3,1,2,3);
-//	st.first.SetData(m);
-//	st2=st+st;
-//	EXPECT_EQ(6,(*(st2.Head)).GetData().GetFactor());
-//}
-//TEST(Polinom, can_Polinom_no_Add)
-//{
-//	Polinom st;
-//	Polinom st2;
-//	Monom m(3,1,2,3);
-//	st.first.SetData(m);
-//	st2=st+st-st;
-//	EXPECT_EQ(3,(*(st2.Head)).GetData().GetFactor());
-//}
-//TEST(Polinom, can_Polinom_ym_)
-//{
-//	Polinom st;
-//	Polinom st2;
-//	Monom m(3,1,2,3);
-//	st.first.SetData(m);
-//	st2=st*st;
-//	EXPECT_EQ(9,(*(st2.Head)).GetData().GetFactor());
-//}
-//TEST(Polinom, can_destructor)
-//{
-//	Polinom st;
-//	Monom m(3,1,2,3);
-//	List<Monom> s2;
-//	List<Monom> s;
-//	List<Monom> *s3;
-//	s.SetData(m);
-//	s.SetPointerList(&s2);
-//	s.SetPointerList(&s2);
-//	st.SetListFirst(&s);
-//	s3=st.first.GetPointerList();
-//	st.Deletpolinom();
-//	EXPECT_EQ(0,s3);
-//}
+TEST(Polinom, can_SetListFirst)
+{
+	Polinom st;
+	Monom m(3,1,2,3);
+	List<Monom> s2;
+	List<Monom> s;
+	s.SetData(m);
+	s.SetPointerList(&s2);
+	st.SetListFirst(&s);
+	EXPECT_EQ(3,st.Head->GetData().GetFactor());
+}
+TEST(Polinom, can_DeletFirst)
+{
+	Polinom st;
+	Monom m(3,1,2,3);
+	List<Monom>s2;
+	List<Monom>s;
+	s.SetData(m);
+	s.SetPointerList(&s2);
+	st.SetListFirst(&s);
+	st.DeletFirst();
+	EXPECT_EQ(0,st.Head->GetData().GetFactor());
+}
+TEST(Polinom, can_SetListMid)
+{
+	Polinom st;
+	Monom m(3,1,2,3);
+	Monom m2(2,1,2,3);
+	List<Monom>s2;
+	List<Monom>s;
+	List<Monom>s3;
+	List<Monom>*s4;
+	s3.SetData(m2);
+	s.SetData(m);
+	st.SetListFirst(&s);
+	st.SetListMid(&s3,st.Head);
+	s4=st.Head->GetPointerList();
+	EXPECT_EQ(2,(*s4).GetData().GetFactor());
+}
+TEST(Polinom, can_PolinomAdd)
+{
+	Polinom st;
+	Polinom st2;
+	Monom m(3,1,2,3);
+	st.Head->SetData(m);
+	st2=st+st;
+	EXPECT_EQ(6,(st2.Head->GetData().GetFactor()));
+}
+TEST(Polinom, can_Polinom_no_Add)
+{
+	Polinom st;
+	Polinom st2;
+	Monom m(3,1,2,3);
+	st.Head->SetData(m);
+	st2=st+st-st;
+	EXPECT_EQ(3,(st2.Head->GetData().GetFactor()));
+}
+TEST(Polinom, can_Polinom_ym)
+{
+	Polinom st;
+	Polinom st2;
+	Monom m(3,1,2,3);
+	st.Head->SetData(m);
+	st2=st*st;
+	EXPECT_EQ(9,(st2.Head->GetData().GetFactor()));
+}
+TEST(Polinom, can_destructor)
+{
+	Polinom st;
+	Monom m(3,1,2,3);
+	List<Monom> s2;
+	List<Monom> s;
+	List<Monom> *s3;
+	s.SetData(m);
+	s.SetPointerList(&s2);
+	s.SetPointerList(&s2);
+	st.SetListFirst(&s);
+	s3=st.Head->GetPointerList();
+	st.Deletpolinom();
+	EXPECT_EQ(0,s3);
+}

@@ -12,7 +12,7 @@ void main()
 		cout<<"для сложение введите 1"<<endl;
 		cout<<"для вычитание введите 2"<<endl;
 		cout<<"для умножение введите 3"<<endl;
-		Polinom p2;
+		Polinom p2,p3;
 		do
 		{
 			cin>>a;
@@ -21,7 +21,10 @@ void main()
 		cout<<"введите полином"<<endl;
 		cin>>p2;
 		if (a==1)
-			p1=p1+p2;
+		{
+			p3=p1;
+			p1=p3+p2;
+		}
 		else if (a==2)
 			p1=p1-p2;
 		else 
